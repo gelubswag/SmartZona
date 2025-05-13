@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ZonaappConfig(AppConfig):
+class InventoryConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'ZonaApp'
+    name = 'SmartZona.apps.inventory'

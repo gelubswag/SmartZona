@@ -39,7 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ZonaApp',
+
+    'SmartZona.apps.users',
+    'SmartZona.apps.warehouse',
+    'SmartZona.apps.products',
+    'SmartZona.apps.supply',
+    'SmartZona.apps.orders',
+    'SmartZona.apps.inventory',
+    'SmartZona.apps.payroll'
 ]
 
 MIDDLEWARE = [
@@ -122,9 +129,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = settings.STATIC_URL
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'users.CustomUser'
+
+LOGIN_URL = '/login/'

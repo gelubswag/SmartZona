@@ -13,9 +13,6 @@ class Settings(BaseSettings):
     DB_PASSWORD: str
     DB_NAME: str
 
-    # Static
-    STATIC_URL: str
-
     class Config:
         env_file = ".env"
 
