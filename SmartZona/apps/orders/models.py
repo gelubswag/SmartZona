@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 
 
@@ -34,16 +33,24 @@ class Order(models.Model):
         )
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def reserve_items(self):
-        for item in self.items.all():
+    def has_enough_items(self) -> bool:
+        for item in OrderItem.objects.filter(order=self).all():
             if item.product.quantity < item.quantity:
-                raise ValidationError(f"Недостаточно {item.product.name}")
+                return False
+        return True
+
+    def reserve_items(self) -> bool:
+        if not self.has_enough_items():
+            return False
+
+        for item in OrderItem.objects.filter(order=self).all():
             item.product.quantity -= item.quantity
             item.product.save()
 
     def save(self, *args, **kwargs):
-        if self.pk is None:
-            self.reserve_items()
+        if self.pk is None and not self.reserve_items():
+            return False
+
         super().save(*args, **kwargs)
 
 

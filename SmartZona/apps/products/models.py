@@ -52,7 +52,9 @@ class Product(models.Model):
             self.expiration_date < timezone.now().date()
         )
 
-    def assign_zone(self):
+    def assign_zone(self) -> bool:
+        if self.zone:
+            return True
         if self.category and self.category.zone_category:
             suitable_zone = (
                 Zone.objects
@@ -62,10 +64,13 @@ class Product(models.Model):
             )
             if suitable_zone and suitable_zone.has_space_for(self.quantity):
                 self.zone = suitable_zone
+                self.save()
+                return True
+        return False
 
     def save(self, *args, **kwargs):
-        if not self.zone:
-            self.assign_zone()
+        if not self.assign_zone():
+            raise ValueError('No suitable zone found')
         super().save(*args, **kwargs)
 
     def __str__(self):

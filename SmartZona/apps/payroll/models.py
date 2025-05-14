@@ -20,6 +20,7 @@ class SalaryReport(models.Model):
             total += staff.salary
         self.total_amount = total
         self.save()
+        return self.total_amount
 
     def __str__(self):
         return f"Отчёт за {self.month.strftime('%B %Y')}"

@@ -19,12 +19,12 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
-    def get_role(self):
+    def get_role(self) -> str | None:
         if self.role:
             return self.role.name
         return None
 
-    def get_role_id(self):
+    def get_role_id(self) -> int | None:
         if self.role:
             return self.role.id
         return None
@@ -33,5 +33,5 @@ class CustomUser(AbstractUser):
         self,
         *roles,
         roles_list: list = None
-            ):
+            ) -> bool:
         return self.role.name in (roles_list + roles)

@@ -57,9 +57,8 @@ class WaybillItem(models.Model):
             ]
         )
 
-    def clean(self):
-        if self.quantity > self.product.quantity:
-            raise ValidationError("Недостаточно товара на складе")
+    def is_clean(self) -> bool:
+        return self.quantity > self.product.quantity
 
     def __str__(self):
         return f"{self.product} x{self.quantity}"

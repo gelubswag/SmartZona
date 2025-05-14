@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from apps.products.models import Product
 
 
 class ZoneCategory(models.Model):
@@ -18,11 +19,18 @@ class Zone(models.Model):
     capacity = models.FloatField(validators=[MinValueValidator(0.1)])
 
     @property
-    def current_load(self):
-        return sum(item.quantity for item in self.items.all())
+    def current_load(self) -> int:
+        return sum(
+            product.quantity
+            for product in Product.objects.filter(zone=self).all()
+            )
 
-    def has_space_for(self, quantity: float) -> bool:
-        return (self.current_load + quantity) <= self.capacity
+    def has_space_for(self, products: list[Product]) -> bool:
+        return (
+            self.current_load + sum(
+                product.quantity for product in products
+            )
+                ) <= self.capacity
 
     def __str__(self):
         return f"Зона {self.code} | {self.category}"

@@ -34,5 +34,5 @@ class InventoryItem(models.Model):
         super().save(*args, **kwargs)
 
     @property
-    def discrepancy(self):
+    def delta(self) -> int:
         return self.actual_quantity - self.planned_quantity
