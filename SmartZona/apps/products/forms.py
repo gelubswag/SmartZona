@@ -15,3 +15,11 @@ class ProductForm(ModelForm):
             'zone',
             'quantity'
             ]
+
+class ProductCategoryForm(ModelForm):
+    class Meta:
+        model = ProductCategory
+        fields = [
+            'name',
+            'zone_category'
+            ]

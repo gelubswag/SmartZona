@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # users
-    path('', include('SmartZona.apps.users.urls'))
+    path('users/', include('SmartZona.apps.users.urls'))
 ]

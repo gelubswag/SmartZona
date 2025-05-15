@@ -30,13 +30,13 @@ class Waybill(models.Model):
         default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def accept(self):
+    def accept(self) -> None:
         if self.status != 'pending':
             raise ValidationError("Накладная уже обработана")
         self.status = 'accepted'
         self.save()
 
-    def reject(self, reason: str):
+    def reject(self, reason: str) -> None:
         if self.status != 'pending':
             raise ValidationError("Накладная уже обработана")
         self.status = 'rejected'

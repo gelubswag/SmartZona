@@ -2,7 +2,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
 
-from SmartZona.apps.warehouse.models import Zone
+# from SmartZona.apps.warehouse.models import Zone
 
 
 class ProductCategory(models.Model):

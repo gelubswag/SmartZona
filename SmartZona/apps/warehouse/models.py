@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
-from apps.products.models import Product
+from SmartZona.apps.products.models import Product
 
 
 class ZoneCategory(models.Model):
