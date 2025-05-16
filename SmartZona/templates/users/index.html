@@ -1,19 +1,27 @@
-{% extends 'base.html' %}
+{% extends 'nav.html' %}
 
-{% block content %}
-    <nav>
-        <ul  style="display: flex; justify-content: flex-end; gap: 20px ; align-items: right;">
-            {% if user.is_authenticated %}
-            <li><p>{{user.username}} | {{user.role}}</p></li>
-            <form method="get">
-                {% csrf_token %}
-                <li><input type="submit" name="logout" value="Logout"></input></li>
-            </form>
-            {% else %}
-            <li><a href="{% url 'users:login' %}">Login</a></li>
-            <li><a href="{% url 'users:register' %}">Register</a></li>
-            {% endif %}
-        </ul>
-    </nav>
+{% block main %}
+    <h1>{{user.role.name}}</h1>
+    <ul>
+        {% if user.role.name == 'manager' %}
+        {% comment %} TODO: add links to manager pages {% endcomment %}
+        <li><a href={% url 'products:index' %}>Управление товарами</a></li>
+        <li><a href="#">Управление складскими зонами</a></li>
+        <li><a href="#">Создание накладной на поставку товаров на склад</a></li>
+        <li><a href="#">Инвентаризация и списание товаров</a></li>
+        <li><a href="#">Зарплата</a></li>
+        {% elif user.role.name == 'supplier'%}
+        <li><a href="#">Создание накладной на поставку товаров на склад</a></li>
+        <li><a href="#">Приемка товара от поставщика</a></li>
+        {% elif user.role == 'storekeeper'%}
+        <li><a href="#">Приемка товара от поставщика</a></li>
+        <li><a href="#">Формирование и обработка заказа</a></li>
+        <li><a href="#">Инвентаризация и списание товаров</a></li>
+        {% elif user.role == 'driver'%}
+        <li><a href="#">Приемка товара от поставщика</a></li>
+        <li><a href="#">Формирование и обработка заказа</a></li>
+        {% elif user.role == 'customer' %}
+        <li><a href="#">Формирование и обработка заказа</a></li>
+        {% endif %}
+    </ul>
 {% endblock %}
-    

@@ -66,14 +66,17 @@ class UserLoginView(View):
 
 class IndexView(View):
     def get(self, request):
-        if 'logout' in request.GET:
-            logout(request)
-            return redirect('users:login')
         ctx = {}
-        
+
         set_active(ctx, 'index')
         return render(
             request,
             'users/index.html',
             ctx
             )
+
+
+class UserLogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('users:login')

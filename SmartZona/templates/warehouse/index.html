@@ -1,0 +1,9 @@
+{% extends 'nav.html' %}
+
+{% block main %}
+    <h1>Управление зонами</h1>
+    <ul>
+        <li><a href="{% url 'warehouse:categories' %}">Управление категориями зон</a></li>
+        <li><a href="{% url 'warehouse:zones' %}">Управление зонами</a></li>
+    </ul>
+{% endblock %}

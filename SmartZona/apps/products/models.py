@@ -6,11 +6,12 @@ from django.utils import timezone
 
 
 class ProductCategory(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, blank=True)
     zone_category = models.ForeignKey(
         'warehouse.ZoneCategory',
         on_delete=models.SET_NULL,
-        null=True
+        null=True,
+        blank=True
         )
 
     def __str__(self):
@@ -24,25 +25,28 @@ class Product(models.Model):
         ('liter', 'л')
         )
 
-    name = models.CharField(max_length=255)
-    article = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=255, blank=True)
+    article = models.CharField(max_length=50, unique=True, blank=True)
     category = models.ForeignKey(
         ProductCategory,
         on_delete=models.SET_NULL,
-        null=True
+        null=True,
+        blank=True
         )
-    unit = models.CharField(max_length=10, choices=UNITS)
+    unit = models.CharField(max_length=10, choices=UNITS, blank=True)
     expiration_date = models.DateField(null=True, blank=True)
     storage_temperature = models.FloatField(null=True, blank=True)
     zone = models.ForeignKey(
         'warehouse.Zone',
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name='items'
         )
     quantity = models.IntegerField(
         default=0,
-        validators=[MinValueValidator(0)]
+        validators=[MinValueValidator(0)],
+        blank=True
         )
 
     def is_expired(self) -> bool:

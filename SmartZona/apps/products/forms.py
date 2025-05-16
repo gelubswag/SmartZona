@@ -20,6 +20,7 @@ class ProductCategoryForm(ModelForm):
     class Meta:
         model = ProductCategory
         fields = [
+            'id',
             'name',
             'zone_category'
             ]

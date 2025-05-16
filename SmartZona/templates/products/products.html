@@ -1,0 +1,40 @@
+{% extends 'nav.html' %}
+
+{% block main %}
+    <h1>Управление товарами</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p> ID <input type="text" name="id"> </p>
+        <button class="btn btn-primary" name="add" type="submit">Создать</button>
+        <button class="btn btn-warning" name="change" type="submit">Изменить</button>
+        <button class="btn btn-danger" name="delete" type="submit">Удалить</button>
+    </form>
+    <br>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>ID товара</th>
+            <th>Название</th>
+            <th>Артикул</th>
+            <th>Категория</th>
+            <th>Ед. измерения</th>
+            <th>Срок годности</th>
+            <th>Температура хранения</th>
+            <th>Зона хранения</th>
+            <th>Кол-во</th>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{product.id}}</td>
+            <td>{{product.name}}</td>
+            <td>{{product.article}}</td>
+            <td>{{product.category}}</td>
+            <td>{{product.unit}}</td>
+            <td>{{product.expiration_date}}</td>
+            <td>{{product.storage_temperature}}</td>
+            <td>{{product.zone}}</td>
+            <td>{{product.quantity}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
