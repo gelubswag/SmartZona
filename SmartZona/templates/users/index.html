@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <nav>
+        <ul  style="display: flex; justify-content: flex-end; gap: 20px ; align-items: right;">
+            {% if user.is_authenticated %}
+            <li><p>{{user.username}} | {{user.role}}</p></li>
+            <form method="get">
+                {% csrf_token %}
+                <li><input type="submit" name="logout" value="Logout"></input></li>
+            </form>
+            {% else %}
+            <li><a href="{% url 'users:login' %}">Login</a></li>
+            <li><a href="{% url 'users:register' %}">Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}
+    

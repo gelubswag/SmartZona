@@ -13,4 +13,13 @@
             {% endif %}
         </button>
     </form>
+    <a href=
+    {% if title == 'Регистрация'%}
+    "{% url 'users:login' %}"
+    >Уже есть акаунт?
+    {% else %}
+    "{% url 'users:register' %}"
+    >Зарегистрироваться
+    {% endif %}
+    </a>
 {% endblock %}

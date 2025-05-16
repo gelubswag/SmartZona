@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from .forms import UserRegisterForm, UserLoginForm
-from .utils import get_user_from_post
+from .utils import get_user_from_post, set_active
 
 
 class UserRegisterView(View):
@@ -51,7 +51,7 @@ class UserLoginView(View):
             )
         if user:
             login(request, user)
-            return redirect('users:login')  # TODO: change to main page
+            return redirect('users:index')
         error = form.errors
         return render(
             request,
@@ -61,4 +61,19 @@ class UserLoginView(View):
                 'error': error,
                 'title': 'Вход',
             }
+            )
+
+
+class IndexView(View):
+    def get(self, request):
+        if 'logout' in request.GET:
+            logout(request)
+            return redirect('users:login')
+        ctx = {}
+        
+        set_active(ctx, 'index')
+        return render(
+            request,
+            'users/index.html',
+            ctx
             )
