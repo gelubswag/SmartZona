@@ -1,0 +1,31 @@
+{% extends 'nav.html' %}
+
+{% block main %}
+    <h1>Управление категориями зон</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p> ID <input type="text" name="id"> </p>
+        <button class="btn btn-primary" name="add" type="submit">Создать</button>
+        <button class="btn btn-warning" name="change" type="submit">Изменить</button>
+        <button class="btn btn-danger" name="delete" type="submit">Удалить</button>
+    </form>
+    <br>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>ID зон</th>
+            <th>Название категории</th>
+            <th>Тип зоны</th>
+            <th>Температура</th>
+            <th>Текущая загрузка</th>
+        </tr>
+        {% for category in categories %}
+        <tr>
+            <td>{{category.id}}</td>
+            <td>{{category.name}}</td>
+            <td>{{category.type}}</td>
+            <td>{{category.temperature}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

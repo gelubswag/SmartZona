@@ -6,8 +6,8 @@ from django.shortcuts import redirect, render
 
 def allowed_roles(
     roles: List[str],
-    view_not_authorized: HttpResponse = HttpResponseForbidden(),
-    view_forbidden: HttpResponse = HttpResponseForbidden(),
+    view_not_authorized: HttpResponse = HttpResponseForbidden,
+    view_forbidden: HttpResponse = HttpResponseForbidden,
 ) -> Callable:
     def decorator(view_func: Callable) -> Callable:
         @wraps(view_func)

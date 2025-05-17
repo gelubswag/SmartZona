@@ -13,14 +13,14 @@
         {% elif user.role.name == 'supplier'%}
         <li><a href="#">Создание накладной на поставку товаров на склад</a></li>
         <li><a href="#">Приемка товара от поставщика</a></li>
-        {% elif user.role == 'storekeeper'%}
+        {% elif user.role.name == 'storekeeper'%}
         <li><a href="#">Приемка товара от поставщика</a></li>
         <li><a href="#">Формирование и обработка заказа</a></li>
         <li><a href="#">Инвентаризация и списание товаров</a></li>
-        {% elif user.role == 'driver'%}
+        {% elif user.role.name == 'driver'%}
         <li><a href="#">Приемка товара от поставщика</a></li>
         <li><a href="#">Формирование и обработка заказа</a></li>
-        {% elif user.role == 'customer' %}
+        {% elif user.role.name == 'customer' %}
         <li><a href="#">Формирование и обработка заказа</a></li>
         {% endif %}
     </ul>

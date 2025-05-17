@@ -42,6 +42,7 @@ class ProductCategoryView(View):
                 ).first()
             if category:
                 category.name = request.POST['name']
+                category.zone_category = request.POST['zone_category']
                 category.save()
             else:
                 error = "Ошибка при изменении категории"

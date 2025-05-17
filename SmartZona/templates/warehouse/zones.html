@@ -1,0 +1,32 @@
+{% extends 'nav.html' %}
+
+{% block main %}
+    <h1>Управление зонами</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p> ID <input type="text" name="id"> </p>
+        <button class="btn btn-primary" name="add" type="submit">Создать</button>
+        <button class="btn btn-warning" name="change" type="submit">Изменить</button>
+        <button class="btn btn-danger" name="delete" type="submit">Удалить</button>
+    </form>
+    <br>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>ID зон</th>
+            <th>Код зоны</th>
+            <th>Категория</th>
+            <th>Вместимость</th>
+            <th>Доступно</th>
+        </tr>
+        {% for zone in zones %}
+        <tr>
+            <td>{{zone.id}}</td>
+            <td>{{zone.code}}</td>
+            <td>{{zone.category}}</td>
+            <td>{{zone.capacity}}</td>
+            <td>{{zone.capacity - zone.current_load}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
