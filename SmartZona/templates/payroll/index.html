@@ -10,12 +10,14 @@
     <table class="table table-bordered table-striped">
         <tr>
             <th>ID отчета</th>
+            <th>Автор</th>
             <th>Сумма</th>
             <th>Создан</th>
         </tr>
         {% for obj in objects %}
         <tr>
-            <td><a href="#">{{obj.id}}</a></td>
+            <td><a href={% url 'payroll:detail' obj.id %}>{{obj.id}}</a></td>
+            <td>{{obj.manager}}</td>
             <td>{{obj.total_amount}}</td>
             <td>{{obj.get_date}}</td>
         </tr>

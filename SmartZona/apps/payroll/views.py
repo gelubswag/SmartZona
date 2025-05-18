@@ -65,3 +65,55 @@ class DetailSalaryReportView(View):
                 'report': SalaryReport.objects.get(pk=pk),
             }
         )
+
+    def post(self, request, pk):
+        form = SalaryForm(request.POST)
+        salaries = Salary.objects.filter(report=pk).all()
+        if form.is_valid() and 'change' in request.POST:
+            worker = request.POST.get('worker')
+            salary = Salary.objects.get(report=pk, worker=worker)
+            salary.report = SalaryReport.objects.get(pk=pk)
+            salary.shifts_worked = request.POST.get('shifts_worked')
+            salary.save()
+            s = 0
+            for salary in salaries:
+                s += salary.salary_amount
+            salary.report.total_amount = s
+            salary.report.save()
+            return render(
+                request,
+                'payroll/detail.html',
+                {
+                    'objects': salaries,
+                    'form': form,
+                    'report': SalaryReport.objects.get(pk=pk),
+                }
+            )
+        elif 'delete' in request.POST:
+            worker = request.POST.get('worker')
+            salary = Salary.objects.get(report=pk, worker=worker)
+            s = 0
+            for sal in salaries:
+                s += sal.salary_amount
+            s -= salary.salary_amount
+            salary.report.total_amount = s
+            salary.report.save()
+            salary.delete()
+            return render(
+                request,
+                'payroll/detail.html',
+                {
+                    'objects': salaries,
+                    'form': form,
+                    'report': SalaryReport.objects.get(pk=pk),
+                }
+            )
+        return render(
+            request,
+            'payroll/detail.html',
+            {
+                'objects': salaries,
+                'form': form,
+                'report': SalaryReport.objects.get(pk=pk),
+            }
+        )
