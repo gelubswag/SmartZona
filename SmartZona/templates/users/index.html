@@ -6,10 +6,10 @@
         {% if user.role.name == 'manager' %}
         {% comment %} TODO: add links to manager pages {% endcomment %}
         <li><a href={% url 'products:index' %}>Управление товарами</a></li>
-        <li><a href="#">Управление складскими зонами</a></li>
+        <li><a href={% url 'warehouse:index' %}>Управление складскими зонами</a></li>
         <li><a href="#">Создание накладной на поставку товаров на склад</a></li>
         <li><a href="#">Инвентаризация и списание товаров</a></li>
-        <li><a href="#">Зарплата</a></li>
+        <li><a href={% url 'payroll:index' %}>Зарплата</a></li>
         {% elif user.role.name == 'supplier'%}
         <li><a href="#">Создание накладной на поставку товаров на склад</a></li>
         <li><a href="#">Приемка товара от поставщика</a></li>

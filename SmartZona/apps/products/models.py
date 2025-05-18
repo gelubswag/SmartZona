@@ -2,7 +2,6 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
 
-# from SmartZona.apps.warehouse.models import Zone
 
 
 class ProductCategory(models.Model):
@@ -38,7 +37,7 @@ class Product(models.Model):
     storage_temperature = models.FloatField(null=True, blank=True)
     zone = models.ForeignKey(
         'warehouse.Zone',
-        on_delete=models.SET_NULL,
+        on_delete=models.RESTRICT,
         null=True,
         blank=True,
         related_name='items'
@@ -57,6 +56,8 @@ class Product(models.Model):
         )
 
     def assign_zone(self) -> bool:
+        from SmartZona.apps.warehouse.models import Zone
+
         if self.zone:
             return True
         if self.category and self.category.zone_category:

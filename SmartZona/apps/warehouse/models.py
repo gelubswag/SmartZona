@@ -5,8 +5,8 @@ from SmartZona.apps.products.models import Product
 
 class ZoneCategory(models.Model):
     STORAGE_TYPES = (('refrigerator', 'Холодильник'), ('rack', 'Стеллаж'))
-    name = models.CharField(max_length=100, unique=True)
-    type = models.CharField(max_length=20, choices=STORAGE_TYPES)
+    name = models.CharField(max_length=100, unique=True, blank=True, null=True)
+    type = models.CharField(max_length=20, choices=STORAGE_TYPES, blank=True, null=True)
     temperature = models.FloatField(null=True, blank=True)
 
     def __str__(self):
@@ -14,9 +14,13 @@ class ZoneCategory(models.Model):
 
 
 class Zone(models.Model):
-    code = models.CharField(max_length=10, unique=True)
-    category = models.ForeignKey(ZoneCategory, on_delete=models.PROTECT)
-    capacity = models.FloatField(validators=[MinValueValidator(0.1)])
+    code = models.CharField(max_length=10, unique=True, blank=True, null=True)
+    category = models.ForeignKey(
+        ZoneCategory, on_delete=models.PROTECT, blank=True, null=True
+        )
+    capacity = models.FloatField(
+        validators=[MinValueValidator(0.1)], blank=True, null=True
+        )
 
     @property
     def current_load(self) -> int:
@@ -38,8 +42,12 @@ class Zone(models.Model):
 
 class Loader(models.Model):
     TYPES = (('electric', 'Электрический'), ('manual', 'Ручной'))
-    type = models.CharField(max_length=20, choices=TYPES)
-    load_capacity = models.FloatField(validators=[MinValueValidator(0.1)])
+    type = models.CharField(
+        max_length=20, choices=TYPES, blank=True, null=True
+        )
+    load_capacity = models.FloatField(
+        validators=[MinValueValidator(0.1)], blank=True, null=True
+        )
     is_available = models.BooleanField(default=True)
 
     def __str__(self):

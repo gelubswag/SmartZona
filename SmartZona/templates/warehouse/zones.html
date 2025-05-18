@@ -5,7 +5,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <p> ID <input type="text" name="id"> </p>
+        <p> ID <input type="number" name="id" value="0" step="1"> </p>
         <button class="btn btn-primary" name="add" type="submit">Создать</button>
         <button class="btn btn-warning" name="change" type="submit">Изменить</button>
         <button class="btn btn-danger" name="delete" type="submit">Удалить</button>
@@ -17,15 +17,15 @@
             <th>Код зоны</th>
             <th>Категория</th>
             <th>Вместимость</th>
-            <th>Доступно</th>
+            <th>Текущая загрузка</th>
         </tr>
-        {% for zone in zones %}
+        {% for obj in objects %}
         <tr>
-            <td>{{zone.id}}</td>
-            <td>{{zone.code}}</td>
-            <td>{{zone.category}}</td>
-            <td>{{zone.capacity}}</td>
-            <td>{{zone.capacity - zone.current_load}}</td>
+            <td>{{obj.id}}</td>
+            <td>{{obj.code}}</td>
+            <td>{{obj.category}}</td>
+            <td>{{obj.capacity}}</td>
+            <td>{{obj.current_load}}</td>
         </tr>
         {% endfor %}
     </table>

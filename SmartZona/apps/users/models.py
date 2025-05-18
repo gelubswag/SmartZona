@@ -21,15 +21,10 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = 'username'
 
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
-    shifts = models.PositiveSmallIntegerField(default=0)
     salary_rate = models.FloatField(validators=[MinValueValidator(0)], default=0)
 
     def __str__(self):
         return self.username
-
-    @property
-    def salary(self):
-        return self.shifts * self.salary_rate
 
     def get_role(self) -> str | None:
         if self.role:

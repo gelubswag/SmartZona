@@ -33,4 +33,18 @@ urlpatterns = [
         include('SmartZona.apps.products.urls'),
         name='products'
         ),
+
+    # warehouse
+    path(
+        'warehouse/',
+        include('SmartZona.apps.warehouse.urls'),
+        name='warehouse'
+        ),
+
+    # payrolls
+    path(
+        'payroll/',
+        include('SmartZona.apps.payroll.urls'),
+        name='payroll'
+        ),
 ]
