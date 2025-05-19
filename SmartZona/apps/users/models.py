@@ -6,8 +6,6 @@ from django.core.validators import MinValueValidator
 class Role(models.Model):
     ROLES = [
         ('manager', 'Менеджер'),
-        ('supplier', 'Поставщик'),
-        ('storekeeper', 'Кладовщик'),
         ('driver', 'Водитель'),
         ('customer', 'Заказчик'),
     ]
