@@ -31,10 +31,15 @@ class Salary(models.Model):
     shifts_worked = models.IntegerField(
         default=0, validators=[MinValueValidator(0)]
         )
-
+    rate = models.FloatField(
+        default=0, validators=[MinValueValidator(0)]
+        )
     @property
     def salary_amount(self):
         return self.worker.salary_rate * self.shifts_worked
 
+    @property
+    def current_amount(self):
+        return self.rate * self.shifts_worked
     def __str__(self):
         return f"{self.worker} - {self.salary_amount}"

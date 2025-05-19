@@ -5,10 +5,10 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <p> ID <input type="number" name="id" value="0" step="1"> </p>
-        <button class="btn btn-primary" name="add" type="submit">Создать</button>
-        <button class="btn btn-warning" name="change" type="submit">Изменить</button>
-        <button class="btn btn-danger" name="delete" type="submit">Удалить</button>
+        {% if user.role.name == 'manager' %}<p> ID <input type="number" name="id" value="0" step="1"> </p>{% endif%}
+        {% if user.role.name == 'supplier' %}<button class="btn btn-primary" name="add" type="submit">Создать</button>{% endif%}
+        {% if user.role.name == 'manager' %}<button class="btn btn-warning" name="change" type="submit">Изменить</button>{% endif%}
+        {% if user.role.name == 'manager' %}<button class="btn btn-danger" name="delete" type="submit">Удалить</button>{% endif%}
     </form>
     <br>
     <table class="table table-bordered table-striped">

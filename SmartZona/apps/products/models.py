@@ -73,10 +73,5 @@ class Product(models.Model):
                 return True
         return False
 
-    def save(self, *args, **kwargs):
-        if not self.assign_zone():
-            raise ValueError('No suitable zone found')
-        super().save(*args, **kwargs)
-
     def __str__(self):
         return f"{self.article} | {self.name}"

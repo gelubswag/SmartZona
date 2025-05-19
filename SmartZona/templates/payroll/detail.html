@@ -4,7 +4,6 @@
     <h1>{{ report }}</h1>
     <form method="post">
         {% csrf_token %}
-        <p> ID <input type="number" name="id" value="0" step="1"> </p>
         {{form.as_p}}
         <button class="btn btn-warning" name="change" type="submit">Изменить</button>
         <button class="btn btn-danger" name="delete" type="submit">Удалить</button>
@@ -14,6 +13,7 @@
         <tr>
             <th>ID</th>
             <th>Рабочий</th>
+            <th>Должность</th>
             <th>Смен отработано</th>
             <th>Плата за смену</th>
             <th>Зарплата</th>
@@ -22,9 +22,10 @@
         <tr>
             <td>{{obj.id}}</td>
             <td>{{obj.worker.username}}</td>
+            <td>{{obj.worker.role.name}}</td>
             <td>{{obj.shifts_worked}}</td>
-            <td>{{obj.worker.salary_rate}}</td>
-            <td>{{obj.salary_amount}}</td>
+            <td>{{obj.rate}}</td>
+            <td>{{obj.current_amount}}</td>
         </tr>
         {% endfor %}
     </table>

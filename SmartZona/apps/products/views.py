@@ -8,7 +8,7 @@ from .models import Product, ProductCategory
 from .forms import ProductForm, ProductCategoryForm
 
 
-@method_decorator(allowed_roles(['manager']), 'dispatch')
+@method_decorator(allowed_roles(['manager', 'supplier']), 'dispatch')
 class IndexView(View):
     def get(self, request):
         return render(request, 'products/index.html')
@@ -33,7 +33,7 @@ class ProductCategoryView(View):
             )
 
 
-@method_decorator(allowed_roles(['manager']), 'dispatch')
+@method_decorator(allowed_roles(['manager', 'supplier']), 'dispatch')
 class ProductsView(View):
     def get(self, request):
         return model_crud(

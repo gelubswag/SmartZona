@@ -33,10 +33,12 @@ class IndexView(View):
             for worker in CustomUser.objects.all():
                 if worker.role.name == 'customer':
                     continue
-                Salary.objects.create(
+                salary = Salary.objects.create(
                     report=report,
                     worker=worker,
                 )
+                salary.rate = worker.salary_rate
+                salary.save()
         except Exception as e:
             error = "Ошибка при добавлении"
             print(e)
@@ -69,15 +71,17 @@ class DetailSalaryReportView(View):
     def post(self, request, pk):
         form = SalaryForm(request.POST)
         salaries = Salary.objects.filter(report=pk).all()
-        if form.is_valid() and 'change' in request.POST:
-            worker = request.POST.get('worker')
+        worker = request.POST.get('worker')
+        if not worker:
+            error = "Выберите работника"
+        elif form.is_valid() and 'change' in request.POST:
             salary = Salary.objects.get(report=pk, worker=worker)
             salary.report = SalaryReport.objects.get(pk=pk)
             salary.shifts_worked = request.POST.get('shifts_worked')
             salary.save()
             s = 0
             for salary in salaries:
-                s += salary.salary_amount
+                s += salary.current_amount
             salary.report.total_amount = s
             salary.report.save()
             return render(
@@ -90,12 +94,11 @@ class DetailSalaryReportView(View):
                 }
             )
         elif 'delete' in request.POST:
-            worker = request.POST.get('worker')
             salary = Salary.objects.get(report=pk, worker=worker)
             s = 0
             for sal in salaries:
-                s += sal.salary_amount
-            s -= salary.salary_amount
+                s += sal.current_amount
+            s -= salary.current_amount
             salary.report.total_amount = s
             salary.report.save()
             salary.delete()
@@ -115,5 +118,6 @@ class DetailSalaryReportView(View):
                 'objects': salaries,
                 'form': form,
                 'report': SalaryReport.objects.get(pk=pk),
+                'error': error
             }
         )
