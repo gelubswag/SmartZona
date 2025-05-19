@@ -11,7 +11,7 @@
         <li><a href="#">Инвентаризация и списание товаров</a></li>
         <li><a href={% url 'payroll:index' %}>Зарплата</a></li>
         {% elif user.role.name == 'supplier'%}
-        <li><a href={% url 'products:products' %}>Создание накладной на поставку товаров на склад</a></li>
+
         <li><a href={% url 'products:products' %}>Приемка товара от поставщика</a></li>
         {% elif user.role.name == 'storekeeper'%}
         <li><a href="#">Приемка товара от поставщика</a></li>

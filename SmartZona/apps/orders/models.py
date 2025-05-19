@@ -13,18 +13,21 @@ class Order(models.Model):
     customer = models.ForeignKey(
         'users.CustomUser',
         on_delete=models.CASCADE,
-        related_name='customer_orders'
+        related_name='customer_orders',
+        blank=True
         )
     driver = models.ForeignKey(
         'users.CustomUser',
         on_delete=models.SET_NULL,
         null=True,
-        related_name='driver_orders'
+        related_name='driver_orders',
+        blank=True
         )
     loader = models.ForeignKey(
         'warehouse.Loader',
         on_delete=models.SET_NULL,
-        null=True
+        null=True,
+        blank=True
         )
     status = models.CharField(
         max_length=20,

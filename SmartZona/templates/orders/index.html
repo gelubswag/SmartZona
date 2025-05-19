@@ -1,0 +1,46 @@
+{% extends 'nav.html' %}
+
+{% block main %}
+    <h1>Управление заказами</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% if user.role.name == 'customer' %}<button class="btn btn-primary" name="add" type="submit">Создать</button>{% endif %}
+    </form>
+    <br>
+    {% if user.role.name == 'customer' %}
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>ID заказа</th>
+            <th>Статус</th>
+            <th>Создан</th>
+        </tr>
+        {% for obj in objects %}
+        <tr>
+            {% comment %} {% url 'payroll:detail' obj.id %} {% endcomment %}
+            <td><a href="#">{{obj.id}}</a></td>
+            <td>{{obj.status}}</td>
+            <td>{{obj.created_at|date:"d.m.Y H:i"}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>ID заказа</th>
+            <th>Заказчик</th>
+            <th>Водитель</th>
+            <th>Статус</th>
+            <th>Создан</th>
+        </tr>
+        {% for obj in objects %}
+        <tr>
+            {% comment %} {% url 'payroll:detail' obj.id %} {% endcomment %}
+            <td><a href="#">{{obj.id}}</a></td>
+            <td>{{obj.customer}}</td>
+            <td>{{obj.driver}}</td>
+            <td>{{obj.status}}</td>
+            <td>{{obj.created_at|date:"d.m.Y H:i"}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
