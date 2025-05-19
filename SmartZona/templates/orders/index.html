@@ -1,46 +1,28 @@
 {% extends 'nav.html' %}
 
 {% block main %}
-    <h1>Управление заказами</h1>
+<div class="container">
+    <h1>Мои заказы</h1>
+    {% if user.role.name == 'customer' %}
     <form method="post">
         {% csrf_token %}
-        {% if user.role.name == 'customer' %}<button class="btn btn-primary" name="add" type="submit">Создать</button>{% endif %}
+        <button class="btn btn-primary" name="add" type="submit">Создать заказ</button>
     </form>
-    <br>
-    {% if user.role.name == 'customer' %}
-    <table class="table table-bordered table-striped">
+    {% endif %}
+
+    <table class="table mt-4">
         <tr>
-            <th>ID заказа</th>
+            <th>ID</th>
             <th>Статус</th>
-            <th>Создан</th>
+            <th>Дата создания</th>
         </tr>
-        {% for obj in objects %}
+        {% for order in objects %}
         <tr>
-            {% comment %} {% url 'payroll:detail' obj.id %} {% endcomment %}
-            <td><a href="#">{{obj.id}}</a></td>
-            <td>{{obj.status}}</td>
-            <td>{{obj.created_at|date:"d.m.Y H:i"}}</td>
+            <td><a href="{% url 'orders:detail' order.id %}">{{ order.id }}</a></td>
+            <td>{{ order.get_status_display }}</td>
+            <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
         </tr>
         {% endfor %}
     </table>
-    {% else %}
-    <table class="table table-bordered table-striped">
-        <tr>
-            <th>ID заказа</th>
-            <th>Заказчик</th>
-            <th>Водитель</th>
-            <th>Статус</th>
-            <th>Создан</th>
-        </tr>
-        {% for obj in objects %}
-        <tr>
-            {% comment %} {% url 'payroll:detail' obj.id %} {% endcomment %}
-            <td><a href="#">{{obj.id}}</a></td>
-            <td>{{obj.customer}}</td>
-            <td>{{obj.driver}}</td>
-            <td>{{obj.status}}</td>
-            <td>{{obj.created_at|date:"d.m.Y H:i"}}</td>
-        </tr>
-        {% endfor %}
-    </table>
+</div>
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.core.exceptions import ValidationError
 
 
 class Order(models.Model):
@@ -21,13 +22,15 @@ class Order(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         related_name='driver_orders',
-        blank=True
+        blank=True,
+        default=None
         )
     loader = models.ForeignKey(
         'warehouse.Loader',
         on_delete=models.SET_NULL,
         null=True,
-        blank=True
+        blank=True,
+        default=None
         )
     status = models.CharField(
         max_length=20,
@@ -50,11 +53,12 @@ class Order(models.Model):
             item.product.quantity -= item.quantity
             item.product.save()
 
-    def save(self, *args, **kwargs):
-        if self.pk is None and not self.reserve_items():
-            return False
+    def total_items(self) -> int:
+        return self.items.count()
 
-        super().save(*args, **kwargs)
+    def clean(self):
+        if self.status == 'processing' and self.total_items() == 0:
+            raise ValidationError("Нельзя отправить пустой заказ на сборку")
 
 
 class OrderItem(models.Model):
@@ -68,3 +72,7 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product} x{self.quantity}"
+
+    def clean(self):
+        if self.quantity > self.product.quantity:
+            raise ValidationError(f"Недостаточно товара {self.product.name}")

@@ -16,10 +16,4 @@ urlpatterns = [
         IndexView.as_view(),
         name='index',
     ),
-
-    # path(
-    #     'products/',
-    #     ProductsView.as_view(),
-    #     name='products'
-    # ),
 ]

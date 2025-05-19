@@ -1,21 +1,19 @@
-from django.forms import ModelForm
+from django import forms
 from .models import Order, OrderItem
 
-
-class OrderForm(ModelForm):
+class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = [
-            'loader',
-            'status',
-            ]
+        fields = []  # Пустая форма для базового заказа
 
-
-class OrderItemForm(ModelForm):
+class OrderItemForm(forms.ModelForm):
     class Meta:
         model = OrderItem
-        fields = [
-            'order',
-            'product',
-            'quantity',
-            ]
+        fields = ['product', 'quantity']
+        widgets = {
+            'product': forms.Select(attrs={'class': 'form-control'}),
+            'quantity': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': 1
+            })
+        }

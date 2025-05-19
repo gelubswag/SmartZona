@@ -1,0 +1,106 @@
+{% extends 'nav.html' %}
+
+{% block main %}
+<div class="container">
+    <h2>Заказ #{{ order.id }}</h2>
+    <p class="lead">Статус: {{ order.get_status_display }}</p>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% if user.role.name == 'customer' and order.status == 'created' %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4>Добавить товары</h4>
+            <form method="post">
+                {% csrf_token %}
+                {{ item_form.as_p }}
+                <button name="action" value="add_item" class="btn btn-primary">
+                    Добавить товар
+                </button>
+            </form>
+
+            <h5 class="mt-4">Текущие товары:</h5>
+            <table class="table">
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>
+                        <form method="post" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="item_id" value="{{ item.id }}">
+                            <input 
+                                type="number" 
+                                name="quantity" 
+                                value="{{ item.quantity }}" 
+                                min="1" 
+                                max="{{ item.product.quantity }}"
+                                class="form-control-sm"
+                            >
+                            <button name="action" value="update_item" class="btn btn-sm btn-warning">
+                                Обновить
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="item_id" value="{{ item.id }}">
+                            <button name="action" value="delete_item" class="btn btn-sm btn-danger">
+                                Удалить
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">Нет товаров</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <form method="post">
+                {% csrf_token %}
+                <button 
+                    name="action" 
+                    value="submit_order" 
+                    class="btn btn-success"
+                    {% if not items %}disabled{% endif %}
+                >
+                    Отправить на сборку
+                </button>
+            </form>
+        </div>
+    </div>
+
+    {% elif user.role.name == 'driver' and order.status == 'processing' %}
+    <div class="card">
+        <div class="card-body">
+            <h4>Начать доставку</h4>
+            <form method="post">
+                {% csrf_token %}
+                <select name="loader" class="form-select mb-3">
+                    {% for loader in loaders %}
+                    <option value="{{ loader.id }}">{{ loader.type }} ({{ loader.load_capacity }} кг)</option>
+                    {% endfor %}
+                </select>
+                <button name="action" value="start_delivery" class="btn btn-primary">
+                    Начать доставку
+                </button>
+            </form>
+        </div>
+    </div>
+
+    {% elif user.role.name == 'driver' and order.status == 'delivering' %}
+    <form method="post">
+        {% csrf_token %}
+        <button name="action" value="complete_delivery" class="btn btn-success">
+            Подтвердить доставку
+        </button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}
