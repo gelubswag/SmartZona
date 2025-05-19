@@ -52,7 +52,7 @@ class UserLoginView(View):
         if user:
             login(request, user)
             return redirect('users:index')
-        error = form.errors
+        error = "Пользователь не найден или пароль неверный"
         return render(
             request,
             'users/auth.html',
