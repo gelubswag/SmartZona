@@ -43,9 +43,7 @@ INSTALLED_APPS = [
     'SmartZona.apps.users',
     'SmartZona.apps.warehouse',
     'SmartZona.apps.products',
-    'SmartZona.apps.supply',
     'SmartZona.apps.orders',
-    'SmartZona.apps.inventory',
     'SmartZona.apps.payroll'
 ]
 

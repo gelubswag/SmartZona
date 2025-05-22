@@ -16,7 +16,11 @@ class IndexView(View):
         if request.user.role.name == 'customer':
             orders = Order.objects.filter(customer=request.user)
         else:
-            orders = Order.objects.filter(status='processing')
+            orders = list(
+                Order.objects.filter(status='processing').all()
+                ) + list(
+                    Order.objects.filter(driver=request.user).all()
+                )
         return render(request, 'orders/index.html', {'objects': orders})
 
     def post(self, request):
