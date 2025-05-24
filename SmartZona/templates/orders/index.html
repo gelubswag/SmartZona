@@ -1,0 +1,28 @@
+{% extends 'nav.html' %}
+
+{% block main %}
+<div class="container">
+    <h1>Мои заказы</h1>
+    {% if user.role.name == 'customer' %}
+    <form method="post">
+        {% csrf_token %}
+        <button class="btn btn-primary" name="add" type="submit">Создать заказ</button>
+    </form>
+    {% endif %}
+
+    <table class="table mt-4">
+        <tr>
+            <th>ID</th>
+            <th>Статус</th>
+            <th>Дата создания</th>
+        </tr>
+        {% for order in objects %}
+        <tr>
+            <td><a href="{% url 'orders:detail' order.id %}">{{ order.id }}</a></td>
+            <td>{{ order.get_status_display }}</td>
+            <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

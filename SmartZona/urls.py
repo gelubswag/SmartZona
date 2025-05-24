@@ -19,5 +19,39 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('ZonaApp.urls'))
+
+    # users
+    path(
+        'users/',
+        include('SmartZona.apps.users.urls'),
+        name='users'
+        ),
+
+    # products
+    path(
+        'products/',
+        include('SmartZona.apps.products.urls'),
+        name='products'
+        ),
+
+    # warehouse
+    path(
+        'warehouse/',
+        include('SmartZona.apps.warehouse.urls'),
+        name='warehouse'
+        ),
+
+    # payrolls
+    path(
+        'payroll/',
+        include('SmartZona.apps.payroll.urls'),
+        name='payroll'
+        ),
+
+    # orders
+    path(
+        'orders/',
+        include('SmartZona.apps.orders.urls'),
+        name='orders'
+        ),
 ]

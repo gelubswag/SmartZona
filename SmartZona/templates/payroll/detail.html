@@ -1,0 +1,32 @@
+{% extends 'nav.html' %}
+
+{% block main %}
+    <h1>{{ report }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="btn btn-warning" name="change" type="submit">Изменить</button>
+        <button class="btn btn-danger" name="delete" type="submit">Удалить</button>
+    </form>
+    <br>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>ID</th>
+            <th>Рабочий</th>
+            <th>Должность</th>
+            <th>Смен отработано</th>
+            <th>Плата за смену</th>
+            <th>Зарплата</th>
+        </tr>
+        {% for obj in objects %}
+        <tr>
+            <td>{{obj.id}}</td>
+            <td>{{obj.worker.username}}</td>
+            <td>{{obj.worker.role.name}}</td>
+            <td>{{obj.shifts_worked}}</td>
+            <td>{{obj.rate}}</td>
+            <td>{{obj.current_amount}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

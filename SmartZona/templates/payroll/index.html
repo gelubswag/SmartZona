@@ -1,0 +1,26 @@
+{% extends 'nav.html' %}
+
+{% block main %}
+    <h1>Управление отчетами о зарплате</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button class="btn btn-primary" name="add" type="submit">Создать</button>
+    </form>
+    <br>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>ID отчета</th>
+            <th>Автор</th>
+            <th>Сумма</th>
+            <th>Создан</th>
+        </tr>
+        {% for obj in objects %}
+        <tr>
+            <td><a href={% url 'payroll:detail' obj.id %}>{{obj.id}}</a></td>
+            <td>{{obj.manager}}</td>
+            <td>{{obj.total_amount}}</td>
+            <td>{{obj.get_date}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

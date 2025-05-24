@@ -1,0 +1,9 @@
+{% extends 'nav.html' %}
+
+{% block main %}
+    <h1>Управление товарами</h1>
+    <ul>
+        {% if user.role.name == 'manager' %}<li><a href="{% url 'products:categories' %}">Управление категориями товаров</a></li>{%endif%}
+        <li><a href="{% url 'products:products' %}">Управление товарами</a></li>
+    </ul>
+{% endblock %}

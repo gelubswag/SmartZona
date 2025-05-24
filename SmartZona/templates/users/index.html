@@ -1,0 +1,19 @@
+{% extends 'nav.html' %}
+
+{% block main %}
+    <h1>{{user.role.name}}</h1>
+    <ul>
+        {% if user.role.name == 'manager' %}
+        {% comment %} TODO: add links to manager pages {% endcomment %}
+        <li><a href={% url 'products:index' %}>Управление товарами</a></li>
+        <li><a href={% url 'warehouse:index' %}>Управление складскими зонами</a></li>
+        <li><a href={% url 'payroll:index' %}>Зарплата</a></li>
+        {% elif user.role.name == 'supplier'%}
+        <li><a href={% url 'products:products' %}>Приемка товара от поставщика</a></li>
+        {% elif user.role.name == 'driver'%}
+        <li><a href={% url 'orders:index' %}>Формирование и обработка заказа</a></li>
+        {% elif user.role.name == 'customer' %}
+        <li><a href={% url 'orders:index' %}>Формирование и обработка заказа</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}

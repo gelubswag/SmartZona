@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav>
+    <ul  style="display: flex; justify-content: flex-end; gap: 20px ; align-items: right;">
+        {% if user.is_authenticated %}
+        <li><a  class="btn btn-primary" href="{% url 'users:index' %}">На главную</a></li>
+        <li><p>{{user.username}} | {{user.role}}</p></li>
+        <li><a  class="btn btn-primary" href="{% url 'users:logout' %}">Logout</a></li>
+        {% else %}
+        <li><a class="btn btn-primary" href="{% url 'users:login' %}">Login</a></li>
+        <li><a class="btn btn-primary" href="{% url 'users:register' %}">Register</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% block main %} {% endblock %}
+{% endblock %}

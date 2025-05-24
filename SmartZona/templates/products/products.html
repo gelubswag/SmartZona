@@ -1,0 +1,40 @@
+{% extends 'nav.html' %}
+
+{% block main %}
+    <h1>Управление товарами</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if user.role.name == 'manager' %}<p> ID <input type="number" name="id" value="0" step="1"> </p>{% endif%}
+        {% if user.role.name == 'supplier' or user.role.name == 'manager' %}<button class="btn btn-primary" name="add" type="submit">Создать</button>{% endif%}
+        {% if user.role.name == 'manager' %}<button class="btn btn-warning" name="change" type="submit">Изменить</button>{% endif%}
+        {% if user.role.name == 'manager' %}<button class="btn btn-danger" name="delete" type="submit">Удалить</button>{% endif%}
+    </form>
+    <br>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>ID товара</th>
+            <th>Название</th>
+            <th>Артикул</th>
+            <th>Категория</th>
+            <th>Ед. измерения</th>
+            <th>Срок годности</th>
+            <th>Температура хранения</th>
+            <th>Зона хранения</th>
+            <th>Кол-во</th>
+        </tr>
+        {% for obj in objects %}
+        <tr>
+            <td>{{obj.id}}</td>
+            <td>{{obj.name}}</td>
+            <td>{{obj.article}}</td>
+            <td>{{obj.category}}</td>
+            <td>{{obj.unit}}</td>
+            <td>{{obj.expiration_date}}</td>
+            <td>{{obj.storage_temperature}}</td>
+            <td>{{obj.zone}}</td>
+            <td>{{obj.quantity}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
