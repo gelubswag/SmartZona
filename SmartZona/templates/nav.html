@@ -4,12 +4,12 @@
 <nav>
     <ul  style="display: flex; justify-content: flex-end; gap: 20px ; align-items: right;">
         {% if user.is_authenticated %}
-        <li><a href="{% url 'users:index' %}">На главную</a></li>
+        <li><a  class="btn btn-primary" href="{% url 'users:index' %}">На главную</a></li>
         <li><p>{{user.username}} | {{user.role}}</p></li>
-        <li><a href="{% url 'users:logout' %}">Logout</a></li>
+        <li><a  class="btn btn-primary" href="{% url 'users:logout' %}">Logout</a></li>
         {% else %}
-        <li><a href="{% url 'users:login' %}">Login</a></li>
-        <li><a href="{% url 'users:register' %}">Register</a></li>
+        <li><a class="btn btn-primary" href="{% url 'users:login' %}">Login</a></li>
+        <li><a class="btn btn-primary" href="{% url 'users:register' %}">Register</a></li>
         {% endif %}
     </ul>
 </nav>

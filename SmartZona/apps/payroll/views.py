@@ -31,7 +31,7 @@ class IndexView(View):
         try:
             report.save()
             for worker in CustomUser.objects.all():
-                if worker.role.name == 'customer':
+                if worker.role.name in ['customer', 'supplier']:
                     continue
                 salary = Salary.objects.create(
                     report=report,
